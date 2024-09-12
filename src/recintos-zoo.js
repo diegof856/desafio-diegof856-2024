@@ -55,7 +55,7 @@ class RecintosZoo {
         // Array para armazenar os recintos viáveis
         let recintosViaveis = [];
 
-
+        
         // Itera sobre cada recinto para determinar se ele é viável
         recintos.forEach(recinto => {
             const tamanhoMaximo = recinto.tamanho; // Tamanho máximo do recinto
@@ -100,6 +100,11 @@ class RecintosZoo {
             if (animal === Animal.HIPOPOTAMO && !(recinto.bioma === 'savana e rio')) {
                 return;
             }
+            // Macacos não podem ficar sozinhos nos biomas
+            if (animal === Animal.MACACO && Object.keys(recinto.animais).length === 0 && quantidade <= 1) {
+                console.log(`Macaco não pode ficar sozinho.`);
+                return;
+            }
 
             // Carnívoros não podem conviver com outras espécies
             if (possuiCarnivoro && ![Animal.LEAO, Animal.LEOPARDO, Animal.CROCODILO].includes(animal)) {
@@ -118,7 +123,7 @@ class RecintosZoo {
 
             // Calcula o espaço livre restante no recinto
             const espacoLivre = tamanhoMaximo - tamanhoTotalAnimais;
-            console.log(`Espaco livre: ${espacoLivre}`);
+            
             // Se houver espaço suficiente, adiciona o recinto como viável
             if (espacoLivre >= 0) {
                 recintosViaveis.push(`Recinto ${recinto.id} (espaço livre: ${espacoLivre} total: ${tamanhoMaximo})`);
